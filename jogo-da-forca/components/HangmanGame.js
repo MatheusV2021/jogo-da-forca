@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import HangmanDrawing from "./HangmanDrawing";
+import styles from "../hangman.module.css";
 
 
 const HangmanGame = () => {
@@ -74,18 +75,20 @@ const HangmanGame = () => {
       .join(" ");
 
   return (
-    <div>
-      <h1>Jogo da Forca</h1>
-      <p>{displayWord()}</p>
-      <p>Tentativas restantes: {maxWrongGuesses - wrongGuesses}</p>
-      {gameStatus === "won" && <p>🎉 Você venceu!</p>}
-      {gameStatus === "lost" && <p>💀 Você perdeu! A palavra era: {currentWord}</p>}
-      {gameStatus !== "playing" && (
-        <button onClick={startNewGame}>Jogar Novamente</button>
-        
-      )}
-      <HangmanDrawing wrongCount={wrongGuesses} />
-    </div>
+   <div className={styles.game}>
+  <h1>Jogo da Forca</h1>
+  <p className={styles.word}>{displayWord()}</p>
+  <p>Tentativas restantes: {maxWrongGuesses - wrongGuesses}</p>
+  <HangmanDrawing wrongCount={wrongGuesses} />
+  {gameStatus === "won" && <p>🎉 Você venceu!</p>}
+  {gameStatus === "lost" && <p>💀 Você perdeu! A palavra era: {currentWord}</p>}
+  {gameStatus !== "playing" && (
+    <button onClick={startNewGame} className={styles.button}>
+      Jogar Novamente
+    </button>
+  )}
+</div>
+    
   );
 };
 
