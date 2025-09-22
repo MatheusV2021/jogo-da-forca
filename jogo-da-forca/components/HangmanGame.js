@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import HangmanDrawing from "./HangmanDrawing";
+
 
 const HangmanGame = () => {
   const words = [
@@ -80,7 +82,9 @@ const HangmanGame = () => {
       {gameStatus === "lost" && <p>💀 Você perdeu! A palavra era: {currentWord}</p>}
       {gameStatus !== "playing" && (
         <button onClick={startNewGame}>Jogar Novamente</button>
+        
       )}
+      <HangmanDrawing wrongCount={wrongGuesses} />
     </div>
   );
 };
