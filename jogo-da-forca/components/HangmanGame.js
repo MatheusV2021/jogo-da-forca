@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import HangmanDrawing from "./HangmanDrawing";
-import styles from "../hangman.module.css";
+import styles from "../app/hangman.module.css";
 
 
 const HangmanGame = () => {
@@ -74,21 +74,65 @@ const HangmanGame = () => {
       .map((letter) => (guessedLetters.has(letter) ? letter : "_"))
       .join(" ");
 
+  const getLetterStatus = (letter) => {
+    if (!guessedLetters.has(letter)) return '';
+    return currentWord.includes(letter) ? styles.correct : styles.wrong;
+  };
+
   return (
-   <div className={styles.game}>
-  <h1>Jogo da Forca</h1>
-  <p className={styles.word}>{displayWord()}</p>
-  <p>Tentativas restantes: {maxWrongGuesses - wrongGuesses}</p>
-  <HangmanDrawing wrongCount={wrongGuesses} />
-  {gameStatus === "won" && <p>🎉 Você venceu!</p>}
-  {gameStatus === "lost" && <p>💀 Você perdeu! A palavra era: {currentWord}</p>}
-  {gameStatus !== "playing" && (
-    <button onClick={startNewGame} className={styles.button}>
-      Jogar Novamente
-    </button>
-  )}
-</div>
-    
+    <div className={styles.game}>
+      <h1>Jogo da Forca</h1>
+      <p className={styles.word}>{displayWord()}</p>
+      <p>Tentativas restantes: {maxWrongGuesses - wrongGuesses}</p>
+      <HangmanDrawing wrongCount={wrongGuesses} />
+
+      {/* Letras utilizadas */}
+      <div className={styles.lettersUsed}>
+        <span>Letras utilizadas:</span>
+        <div>
+          {Array.from(guessedLetters).map(letter => (
+            <span key={letter} className={currentWord.includes(letter) ? styles.correct : styles.wrong}>
+              {letter}{" "}
+            </span>
+          ))}
+        </div>
+      </div>
+      
+      {/* Status do jogo */}
+      {gameStatus === "won" && (
+        <p className={`${styles.status} ${styles.won}`}>
+          🎉 Você venceu!
+        </p>
+      )}
+      {gameStatus === "lost" && (
+        <p className={`${styles.status} ${styles.lost}`}>
+          💀 Você perdeu! A palavra era: {currentWord}
+        </p>
+      )}
+      
+      {/* Teclado virtual */}
+      {gameStatus === "playing" && (
+        <div className={styles.keyboard}>
+          {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
+            <button
+              key={letter}
+              onClick={() => makeGuess(letter)}
+              disabled={guessedLetters.has(letter)}
+              className={`${styles.button} ${getLetterStatus(letter)}`}
+            >
+              {letter}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Botão de reiniciar */}
+      {gameStatus !== "playing" && (
+        <button onClick={startNewGame} className={styles.button}>
+          Jogar Novamente
+        </button>
+      )}
+    </div>
   );
 };
 

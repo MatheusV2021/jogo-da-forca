@@ -1,4 +1,4 @@
-import HangmanGame from "./components/HangmanGame";
+import HangmanGame from "../components/HangmanGame";
 
 export default function Home() {
   return (
