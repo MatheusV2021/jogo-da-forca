@@ -113,32 +113,23 @@ const HangmanGame = () => {
       {/* Teclado virtual */}
       {gameStatus === "playing" && (
         <div className={styles.keyboard}>
-          {[
-            ['A', 'B', 'C', 'D', 'E', 'F'],
-            ['G', 'H', 'I', 'J', 'K', 'L'],
-            ['M', 'N', 'O', 'P', 'Q', 'R'],
-            ['S', 'T', 'U', 'V', 'W', 'X'],
-            ['Y', 'Z', '', '', '', '']
-          ].map((row, rowIndex) => (
-            <div key={rowIndex} className={styles.keyboardRow}>
-              {row.map((letter) => (
-                <button
-                  key={letter}
-                  onClick={() => letter && makeGuess(letter)}
-                  disabled={!letter || guessedLetters.has(letter)}
-                  className={`${styles.button} ${letter ? getLetterStatus(letter) : styles.hidden}`}
-                >
-                  {letter}
-                </button>
-              ))}
-            </div>
+          {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
+            <button
+              key={letter}
+              onClick={() => makeGuess(letter)}
+              disabled={guessedLetters.has(letter)}
+              className={`${styles.button} ${getLetterStatus(letter)}`}
+              aria-label={letter}
+            >
+              {letter}
+            </button>
           ))}
         </div>
       )}
 
       {/* Botão de reiniciar */}
       {gameStatus !== "playing" && (
-        <button onClick={startNewGame} className={styles.button}>
+        <button onClick={startNewGame} className={styles.playButton}>
           Jogar Novamente
         </button>
       )}
